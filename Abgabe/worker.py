@@ -16,8 +16,11 @@ def single_year_simulation(dist_geburtenRate, dist_todesRaten, dist_einwanderung
         key = list(distr_type_params.keys())[0]
         params = distr_type_params[key].copy()
 
-        params["loc"] = (params["loc"] / pop_start) * current_pop
-        params["scale"] = (params["scale"] / pop_start) * current_pop
+        var = params["scale"] / params["loc"] #variationskoeffizient berechnen
+
+        params["loc"] = (params["loc"] / pop_start) * current_pop #neuer erwartungswert berechnen
+        
+        params["scale"] = var * params["loc"] #neue standardabweicung berechnen
 
         obj = getattr(stats, key)
 
